@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym VRF - Nutrition and Fitness Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        article {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        article h2 {
+            color: #3498db;
+        }
+        article p {
+            margin-bottom: 15px;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gym VRF - Nutrition and Fitness Blog</h1>
+    </header>
+    <main id="main">
+        <article>
+            <h2>Benefits of Cardio Workouts</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum aliquet ligula sed nunc efficitur vulputate. Donec tristique purus ac dolor imperdiet, ut consectetur elit lacinia. Duis bibendum dui nec libero pulvinar, nec finibus libero maximus. Aliquam erat volutpat.</p>
+        </article>
+        <article>
+            <h2>Top 10 Foods for Muscle Gain</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum aliquet ligula sed nunc efficitur vulputate. Donec tristique purus ac dolor imperdiet, ut consectetur elit lacinia. Duis bibendum dui nec libero pulvinar, nec finibus libero maximus. Aliquam erat volutpat.</p>
+        </article>
+    </main>
+    <footer>
+        <p>All rights reserved &copy; 2024 Gym VRF</p>
+    </footer>
+
+    <script>
+        // تحميل المقالات المحفوظة عند تحميل الصفحة
+        window.onload = function() {
+            loadArticles();
+        };
+
+        function openPopup() {
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function publishArticle() {
+            var password = document.getElementById("articleForm").elements["password"].value;
+
+            // يجب أن تكون الكلمة السرية هنا "password"
+            if (password === "password") {
+                var title = document.getElementById("articleForm").elements["title"].value;
+                var content = document.getElementById("articleForm").elements["content"].value;
+
+                // بناء النص بناءً على العناصر المدخلة
+                var articleHTML = "<article><h2>" + title + "</h2><p>" + content + "</p></article>";
+
+                // تحديث المقالات في الصفحة الرئيسية
+                document.getElementById("main").innerHTML += articleHTML;
+
+                // حفظ المقالات في localStorage
+                saveArticle(title, content);
+            } else {
+                alert("Incorrect password!");
+            }
+        }
+
+        function saveArticle(title, content) {
+            var articles = JSON.parse(localStorage.getItem("articles")) || [];
+            articles.push({ title: title, content: content });
+            localStorage.setItem("articles", JSON.stringify(articles));
+        }
+
+        function loadArticles() {
+            var articles = JSON.parse(localStorage.getItem("articles")) || [];
+            var articlesHTML = "";
+            articles.forEach(function(article) {
+                articlesHTML += "<article><h2>" + article.title + "</h2><p>" + article.content + "</p></article>";
+            });
+            document.getElementById("main").innerHTML = articlesHTML;
+        }
+    </script>
+
+    <div class="popup" id="popup">
+        <h2>Add New Article</h2>
+        <form id="articleForm">
+            <input type="text" name="title" placeholder="Article Title"><br>
+            <textarea name="content" placeholder="Article Content"></textarea><br>
+            <input type="password" name="password" placeholder="Password"><br>
+            <button type="button" onclick="publishArticle()">Publish</button>
+            <button type="button" onclick="closePopup()">Cancel</button>
+        </form>
+    </div>
+    <button onclick="openPopup()">Add New Article</button>
+</body>
+</html>
